@@ -1,4 +1,8 @@
-from flask import Flask, render_template # Importando a biblioteca Flask
+# Importando a biblioteca Flask
+from flask import Flask, render_template, request
+# Biblioteca para segurança no login
+from werkzeug.security import generate_password_hash, check_password_hash
+import database
 
 app = Flask(__name__) # Criando um objeto do Flask chamado app 
 
@@ -10,9 +14,18 @@ def hello():
 def login():
     return render_template('login.html')
 
-@app.route('/cadastro')
+# GET serve para "pegar" as informações de uma página
+# POST serve para enviar informações 
+@app.route('/cadastro', methods=["GET", "POST"])
 def cadastro():
-    return render_template('cadastro.html')
+    if request.method == "POST":
+        form = request.form
+        if database.criar_usuario(form) == True:
+            return render_template('login.html')
+        else:
+            return "Ocorreu um erro ao cadastrar usuário"
+    else:
+        return render_template('cadastro.html')
 
 if __name__ == '__main__':
     app.run(debug=True) 
