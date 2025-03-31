@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Tarefas</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>Lista</h1>
+    <div class="container">
+        <div class="nova-tarefa">
+            <form action="/nova" method="POST">
+                <input type="text" id="conteudo" name="conteudo" required>
+                <button type="submit" class="btn">Criar</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

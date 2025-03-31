@@ -35,6 +35,8 @@ def criar_usuario (formulario):
     conexao.commit()
     return True
 
+def criar_tarefa(usuario, conteudo):
+    return True
 
 if __name__ == '__main__':
     criar_tabelas()
