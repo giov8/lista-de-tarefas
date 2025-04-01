@@ -1,4 +1,5 @@
 import sqlite3
+from werkzeug.security import generate_password_hash, check_password_hash
 
 def conectar_banco():
     conexao = sqlite3.connect("tarefas.db")
@@ -29,9 +30,10 @@ def criar_usuario (formulario):
         print("LOG: Já existe esse e-mail cadastrado no banco!")
         return False
     
+    senha_criptografada = generate_password_hash(formulario['senha'])
     cursor.execute(''' INSERT INTO usuarios (email, nome, senha)
                    VALUES (?, ?, ?)''', 
-                   (formulario['email'], formulario['nome'], formulario['senha']))
+                   (formulario['email'], formulario['nome'], senha_criptografada))
     conexao.commit()
     return True
 

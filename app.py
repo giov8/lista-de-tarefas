@@ -1,7 +1,6 @@
 # Importando a biblioteca Flask
 from flask import Flask, render_template, request
 # Biblioteca para segurança no login
-from werkzeug.security import generate_password_hash, check_password_hash
 import database
 
 app = Flask(__name__) # Criando um objeto do Flask chamado app 
