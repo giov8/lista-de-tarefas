@@ -1,17 +1,30 @@
-# Importando a biblioteca Flask
-from flask import Flask, render_template, request
-# Biblioteca para segurança no login
+from flask import Flask, render_template, request, session, redirect, url_for
 import database
 
-app = Flask(__name__) # Criando um objeto do Flask chamado app 
+app = Flask(__name__) # Criando um objeto do Flask chamado "app"
+app.secret_key = "SENHA SECRETA" # Senha secreta que geralmente estaria em um arquivo a parte
 
 @app.route('/')
 def hello():
     return render_template('index.html')
 
-@app.route('/login')
+@app.route('/login', methods=["GET", "POST"])
 def login():
-    return render_template('login.html')
+    if request.method == "POST":
+        form = request.form
+        if database.fazer_login(form) == True:
+            session['usuario'] = form['email'] # Armazena o email do usuário na sessão
+            return redirect(url_for('lista'))
+        else:
+            return "Ocorreu um erro ao fazer login"
+    else:
+        return render_template('login.html')
+
+@app.route('/lista')
+def lista():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+    return render_template('lista.html')    
 
 # GET serve para "pegar" as informações de uma página
 # POST serve para enviar informações 
@@ -25,6 +38,7 @@ def cadastro():
             return "Ocorreu um erro ao cadastrar usuário"
     else:
         return render_template('cadastro.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True) 
