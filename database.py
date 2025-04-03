@@ -57,5 +57,24 @@ def fazer_login (formulario):
         resultado_verificacao = check_password_hash(senha_criptografada[0], formulario['senha'])
         return resultado_verificacao
 
+def criar_tarefa(conteudo, email):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    cursor.execute(''' INSERT INTO tarefas (conteudo, esta_concluida, email_usuario)
+                   VALUES (?, ?, ?)''', 
+                   (conteudo, False, email))
+    conexao.commit()
+    return True
+
+def buscar_tarefas(email):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    cursor.execute('''SELECT id, conteudo, esta_concluida
+                   FROM tarefas WHERE email_usuario=?''', 
+                   (email,))
+    conexao.commit()
+    tarefas = cursor.fetchall() # Busca todos os resultados do select e guarda em "tarefas"
+    return tarefas
+
 if __name__ == '__main__':
     criar_tabelas()
