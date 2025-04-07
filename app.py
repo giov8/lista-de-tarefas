@@ -52,6 +52,33 @@ def criar_tarefa():
     else:
         return "Ocorreu um erro ao cadastrar a tarefa"
 
+@app.route('/tarefas/atualizar/<int:id>', methods=["GET"])
+def marcar_tarefa_como_feita(id):
+
+    if database.marcar_tarefa_como_feita(id):
+        return redirect(url_for('lista'))
+    else:
+        return "Ocorreu um erro ao marcar a tarefa como feita"
+
+
+@app.route('/tarefas/excluir/<int:id>', methods=["GET"])
+def excluir_tarefa(id):
+
+    email = session['usuario'] # pega o e-mail da sessão para verificar se é o dono da tarefa
+
+    if database.excluir_tarefa(id, email):
+        return redirect(url_for('lista'))
+    else:
+        return "Ocorreu um erro ao excluir a tarefa"
+
+@app.route('/excluir_usuario')
+def excluir_usuario():
+    email = session['usuario']
+
+    if database.excluir_usuario(email):
+        return redirect(url_for('hello'))
+    else:
+        return "Ocorreu um erro ao excluir o usuário"
 
 if __name__ == '__main__':
     app.run(debug=True) 

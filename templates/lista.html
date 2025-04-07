@@ -8,6 +8,8 @@
 </head>
 <body>
     <h1>Minha lista de tarefas</h1>
+   
+
     <div class="formulario">
         <form action="/criar_tarefa" method="POST">
             <input type="text" id="conteudo"
@@ -15,12 +17,21 @@
             <button type="submit" class="btn">Adicionar tarefa</button>
         </form>
     </div>
+    <hr>
     {% for tarefa in tarefas %}
-        <p>{{ tarefa }}</p>
-        <p>{{ tarefa[0] }}</p>
-        <p>{{ tarefa[1] }}</p>
-        <p>{{ tarefa[2] }}</p>
+        <label class="checkbox">
+            <input type="checkbox" {{ "checked" if tarefa[2] else "" }}
+            onclick="window.location.href='/tarefas/atualizar/{{ tarefa[0] }}'">
+            {{ tarefa[1] }}
+        </label>
+        <input type="button"
+            onclick="window.location.href='/tarefas/excluir/{{ tarefa[0] }}'" value="Excluir">
+        <!-- <input type="button"
+        onclick="window.location.href='/tarefas/editar/{{ tarefa[0] }}'" value="Editar"> -->
         <hr>
     {% endfor %}
+
+    <input type="button"
+    onclick="window.location.href='/excluir_usuario'" value="Excluir usuário">
 </body>
 </html>
