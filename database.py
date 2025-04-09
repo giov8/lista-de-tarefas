@@ -119,5 +119,28 @@ def excluir_usuario(email):
     conexao.commit()
     return True
 
+def buscar_conteudo_tarefa(id):
+    # Conecta com o banco
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+
+    #Executa a query do conteúdo
+    cursor.execute('''SELECT conteudo FROM tarefas WHERE id=?''', (id,))
+    conexao.commit()
+    conteudo = cursor.fetchone()
+
+    #Retorna o conteudo
+    return(conteudo[0])
+
+def editar_tarefa(novo_conteudo, id):
+    # Conecta com o banco
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+
+    #Executa o comando
+    cursor.execute('''UPDATE tarefas SET conteudo=? WHERE id=?''', (novo_conteudo, id))
+    conexao.commit()
+    return True
+
 if __name__ == '__main__':
     criar_tabelas()

@@ -71,6 +71,22 @@ def excluir_tarefa(id):
     else:
         return "Ocorreu um erro ao excluir a tarefa"
 
+ # ---   
+    
+@app.route('/tarefas/editar/<int:id>', methods=["GET", "POST"])
+def editar_tarefa(id):
+    # pega o e-mail da sessão para verificar se é o dono da tarefa
+    email = session['usuario']
+    if (request.method == "GET"):
+        conteudo_tarefa = database.buscar_conteudo_tarefa(id)
+        return render_template('editar.html', tarefa=conteudo_tarefa, id=id)
+    if (request.method == "POST"):
+        form = request.form
+        novo_conteudo = form['conteudo']
+        database.editar_tarefa(novo_conteudo, id)
+        return redirect(url_for('lista'))
+ # ---   
+    
 @app.route('/excluir_usuario')
 def excluir_usuario():
     email = session['usuario']
